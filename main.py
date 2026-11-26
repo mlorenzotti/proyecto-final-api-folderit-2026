@@ -11,7 +11,7 @@ from fastapi import Depends, FastAPI, HTTPException, Security
 from fastapi.security import APIKeyHeader
 
 import db
-from models import ItemNuevo
+from models import LibroNuevo
 
 load_dotenv()  # lee las variables del archivo .env (solo en la computadora local)
 API_KEY = os.getenv("API_KEY")
@@ -42,15 +42,18 @@ def inicio():
 
 
 # CAMBIAR: la ruta /items y los nombres de las funciones
-@app.get("/items")
-def listar_items(buscar: str | None = None):
-    items = db.cargar_items()
-    if buscar:
-        items = [i for i in items if buscar.lower() in i["nombre"].lower()]
-    return items
+@app.get("/libros")
+def listar_libros(buscar: str | None = None):
+    libros = db.listar_libros()
+    """if buscar:
+        libros = [i for i in items if buscar.lower() in i["nombre"].lower()]"""
+    return libros
 
+@app.post("/libros", status_code=201, dependencies=[Depends(verificar_api_key)])
+def agregar_libro(nuevo: LibroNuevo):
+    return db.agregar_libro(nuevo)
 
-@app.get("/items/{item_id}")
+"""@app.get("/items/{item_id}")
 def ver_item(item_id: int):
     item = db.buscar_item(item_id)
     if item is None:
@@ -60,4 +63,4 @@ def ver_item(item_id: int):
 
 @app.post("/items", status_code=201, dependencies=[Depends(verificar_api_key)])
 def agregar_item(nuevo: ItemNuevo):
-    return db.agregar_item(nuevo.model_dump())
+    return db.agregar_item(nuevo.model_dump())"""
