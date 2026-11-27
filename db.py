@@ -19,8 +19,11 @@ supabase = create_client(
 )
 
 
-def listar_libros():
+def listar_libros(buscar: str):
     """Lee la base de datos y devuelve la lista de libros."""
+    if (buscar):
+        res = supabase.table("libros").select("*").ilike("titulo", "%" + buscar + "%").execute()
+        return res.data
     res = supabase.table("libros").select("*").execute()
     return res.data
 

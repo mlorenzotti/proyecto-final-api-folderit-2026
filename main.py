@@ -44,9 +44,7 @@ def inicio():
 # CAMBIAR: la ruta /items y los nombres de las funciones
 @app.get("/libros")
 def listar_libros(buscar: str | None = None):
-    libros = db.listar_libros()
-    """if buscar:
-        libros = [i for i in items if buscar.lower() in i["nombre"].lower()]"""
+    libros = db.listar_libros(buscar)
     return libros
 
 @app.get("/libros/{id_libro}")
