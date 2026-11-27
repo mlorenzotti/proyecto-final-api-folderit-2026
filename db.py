@@ -24,6 +24,9 @@ def listar_libros():
     res = supabase.table("libros").select("*").execute()
     return res.data
 
+def obtener_libro(id_libro):
+    res = supabase.table("libros").select("*").eq("id_libro", id_libro).execute()
+    return res.data
 
 def agregar_libro(libro):
     respuesta = supabase.table("libros").insert(libro.model_dump()).execute()
@@ -35,12 +38,7 @@ def actualizar_libro(id_libro, libro):
      ).eq("id_libro", id_libro).execute()
     return respuesta
 
-
-"""def agregar_item(datos):
-    items = cargar_items()
-    nuevo_id = max((i["id"] for i in items), default=0) + 1
-    item = {"id": nuevo_id, **datos}
-    items.append(item)
-    guardar_items(items)
-    return item"""
+def eliminar_libro(id_libro):
+    respuesta = supabase.table("libros").delete().eq("id_libro", id_libro).execute()
+    return respuesta
 

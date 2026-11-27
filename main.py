@@ -49,6 +49,11 @@ def listar_libros(buscar: str | None = None):
         libros = [i for i in items if buscar.lower() in i["nombre"].lower()]"""
     return libros
 
+@app.get("/libros/{id_libro}")
+def obtener_libro(id_libro: int):
+    libro = db.obtener_libro(id_libro)
+    return libro
+
 @app.post("/libros", status_code=201, dependencies=[Depends(verificar_api_key)])
 def agregar_libro(nuevo: LibroNuevo):
     return db.agregar_libro(nuevo)
@@ -56,6 +61,10 @@ def agregar_libro(nuevo: LibroNuevo):
 @app.put("/libros/{id_libro}", status_code=201, dependencies=[Depends(verificar_api_key)])
 def actualizar_libro(id_libro: int, nuevo: LibroUpdate):
     return db.actualizar_libro(id_libro, nuevo)
+
+@app.delete("/libros/{id_libro}", status_code=201, dependencies=[Depends(verificar_api_key)])
+def eliminar_libro(id_libro: int):
+    return db.eliminar_libro(id_libro)
 
 """@app.get("/items/{item_id}")
 def ver_item(item_id: int):
