@@ -29,16 +29,14 @@ def agregar_libro(libro):
     respuesta = supabase.table("libros").insert(libro.model_dump()).execute()
     return respuesta
 
-"""def buscar_item(item_id):
-   
-    for item in cargar_items():
-        if item["id"] == item_id:
-            return item
-    return None
+def actualizar_libro(id_libro, libro):
+    respuesta = supabase.table("libros").update(
+    libro.model_dump()
+     ).eq("id_libro", id_libro).execute()
+    return respuesta
 
 
-def agregar_item(datos):
-   
+"""def agregar_item(datos):
     items = cargar_items()
     nuevo_id = max((i["id"] for i in items), default=0) + 1
     item = {"id": nuevo_id, **datos}

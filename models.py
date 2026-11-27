@@ -8,3 +8,11 @@ class LibroNuevo(BaseModel):
     isbn: int = Field(ge=0)
     anio: int = Field(ge=0)
     activo: bool 
+
+class LibroUpdate(BaseModel):
+    titulo: str | None = None
+    isbn: int | None = None
+    descripcion: str | None = None
+    anio: int | None = None
+    numero_copias: int | None = None
+    activo: bool | None = None
