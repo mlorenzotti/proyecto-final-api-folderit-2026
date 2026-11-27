@@ -11,7 +11,7 @@ from fastapi import Depends, FastAPI, HTTPException, Security
 from fastapi.security import APIKeyHeader
 
 import db
-from models import LibroNuevo
+from models import LibroNuevo, LibroUpdate
 
 load_dotenv()  # lee las variables del archivo .env (solo en la computadora local)
 API_KEY = os.getenv("API_KEY")
@@ -52,6 +52,10 @@ def listar_libros(buscar: str | None = None):
 @app.post("/libros", status_code=201, dependencies=[Depends(verificar_api_key)])
 def agregar_libro(nuevo: LibroNuevo):
     return db.agregar_libro(nuevo)
+
+@app.put("/libros/{id_libro}", status_code=201, dependencies=[Depends(verificar_api_key)])
+def actualizar_libro(id_libro: int, nuevo: LibroUpdate):
+    return db.actualizar_libro(id_libro, nuevo)
 
 """@app.get("/items/{item_id}")
 def ver_item(item_id: int):
